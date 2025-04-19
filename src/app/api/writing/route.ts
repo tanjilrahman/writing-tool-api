@@ -11,7 +11,8 @@ const WRITING_STYLES = {
   proofread:
     "Proofread the text for any errors and make sure it is grammatically correct. Do not change the meaning of the text.",
   professional: "Business-appropriate language that's clear and direct",
-  persuasive: "Compelling language that drives action",
+  reply:
+    "Reply to the user's message in a friendly and casual, human like manner.",
   freestyle: "", // Custom instructions will be provided at runtime
 };
 
@@ -73,6 +74,12 @@ export async function POST(req: NextRequest) {
          Return ONLY your corrected version of the text:
          
          Text to proofread: "${text}"`
+        : style === "reply"
+        ? `You are a helpful writing assistant. The following message is given to me. Now continue the conversation and create a response for the given text in a friendly and casual, human like manner.
+        
+        Text: "${text}"
+        
+        Create 3 variations of the response. Return ONLY your response.`
         : `You are a professional writing assistant. Your task is to improve the given text by making it more ${
             WRITING_STYLES[style as keyof typeof WRITING_STYLES]
           }. 
