@@ -13,6 +13,8 @@ const WRITING_STYLES = {
   professional: "Business-appropriate language that's clear and direct",
   reply:
     "Reply to the user's message in a friendly and casual, human like manner.",
+  meaning:
+    "What is the meaning of the text? Return ONLY the meaning of the text.",
   freestyle: "", // Custom instructions will be provided at runtime
 };
 
@@ -80,6 +82,10 @@ export async function POST(req: NextRequest) {
         Text: "${text}"
         
         Create 3 variations of the response. Return ONLY your response.`
+        : style === "meaning"
+        ? `What is the meaning of this text?
+        
+        Text: "${text}"`
         : `You are a professional writing assistant. Your task is to improve the given text by making it more ${
             WRITING_STYLES[style as keyof typeof WRITING_STYLES]
           }. 
